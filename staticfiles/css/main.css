@@ -1,0 +1,36 @@
+body {
+    background-color: rgb(245, 244, 248);
+}
+
+.card{
+    border-bottom-left-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+    box-shadow: rgba(3, 0, 71, 0.09) 0px 1px 3px 0px !important;
+    border-bottom-color: rgb(92, 87, 118) !important;
+    border-left-color: rgb(92, 87, 118) !important;
+    border-right-color: rgb(92, 87, 118) !important;
+    white-space: normal;
+    overflow: hidden !important;
+}
+
+.card .card-img-top {
+    overflow: hidden !important;
+    border-top-left-radius: 8px !important;
+    border-top-right-radius: 8px !important;
+}
+
+.card .card-body{
+    padding: 24px !important;
+}
+
+.text-primary-clr{
+    color: rgb(24, 17, 60) !important;
+}
+
+.text-secondary-clr{
+    color: rgb(92, 87, 118) !important;
+}
+
+.btn-primary-clr{
+    background-color: #19cb98;
+}
