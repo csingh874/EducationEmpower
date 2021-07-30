@@ -1,3 +1,5 @@
 ENV
 ecommerc/__pychache__
 EducationEmpower/__pycache__
+.idea
+.git

@@ -10,5 +10,6 @@ def home_page(request):
 def course_page(request):
     return render(request, "courses.html")
 
+
 def view_course(request):
     return render(request, "view_course.html")
