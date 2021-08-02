@@ -6,9 +6,9 @@
             <div class="row align-items-center">
                 <div class="col-xl-7 col-lg-7 col-md-12">
                     <div>
-                        <h1 class="text-white display-6 fw-semi-bold">Getting Started with JavaScript</h1>
+                        <h1 class="text-white display-6 fw-semi-bold">{{ course_detail.title }}</h1>
                         <p class="text-white mb-6 lead">
-                            JavaScript is the popular programming language which powers web pages and web applications. This course will get you started coding in JavaScript.
+                            {{ course_detail.short_description }}
                         </p>
                     </div>
                 </div>
@@ -21,99 +21,94 @@
          <div class="col-lg-8 mn">
              <div class="card rounded-3 border-0">
                   <div class="card-header border-bottom-0 p-0 bg-white">
-                    <ul class="nav card-header-tabs" style="border-bottom: 1px solid #e8e7ed;">
-                      <li class="nav-item border-bottom ps-2">
-                        <a class="nav-link text-decoration-none text-secondary-clr active" aria-current="true" href="#">Contents</a>
+                    <ul class="nav card-header-tabs" style="border-bottom: 1px solid #e8e7ed;" role="tablist">
+                        {% if course_detail.courseheading_set.all %}
+                      <li class="nav-item border-bottom ps-2" role="presentation">
+                        <a class="nav-link text-decoration-none text-secondary-clr active" data-bs-toggle="tab" data-bs-target="#content" aria-current="true" role="tab" aria-controls="content" aria-selected="true">Contents</a>
                       </li>
-                      <li class="nav-item">
-                        <a class="nav-link text-decoration-none text-secondary-clr" href="#">Description</a>
+                        {% endif %}
+                      {% if course_detail.description %}
+                      <li class="nav-item" role="presentation">
+                        <a class="nav-link text-decoration-none text-secondary-clr" data-bs-toggle="tab" data-bs-target="#description" role="tab" aria-controls="description" aria-selected="false">Description</a>
                       </li>
+                      {% endif %}
                     </ul>
                   </div>
                   <div class="card-body">
-                        <div class="accordion accordion-flush" id="accordionFlushExample">
-                          <div class="accordion-item">
-                            <h2 class="accordion-header" id="flush-headingOne">
-                              <button class="accordion-button collapsed px-0 text-primary-clr bg-white" style="font-weight: 500;" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                Accordion Item #1
-                              </button>
-                            </h2>
-                            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                              <div class="accordion-body px-0 pt-0">
-                                  <ul class="list-group list-group-flush ">
-                                      <li class="list-group-item border-bottom-0 d-flex justify-content-between text-primary-clr"><div><span class="text-tertiary-clr bg-light rounded-circle me-2"><i class="bi bi-caret-right-fill"></i></span>An item</div><span>1m7s</span></li>
-                                      <li class="list-group-item border-bottom-0 text-primary-clr">A second item</li>
-                                      <li class="list-group-item border-bottom-0 text-primary-clr">A third item</li>
-                                      <li class="list-group-item border-bottom-0 text-primary-clr">A fourth item</li>
-                                      <li class="list-group-item border-bottom-0 text-primary-clr">And a fifth one</li>
-                                  </ul>
+                      <div class="tab-content">
+                          <div id="content" class="tab-pane fade show active" role="tabpanel">
+                            <div class="accordion accordion-flush" id="accordionFlushExample">
+                              {% for detail in course_detail.courseheading_set.all %}
+                               <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-heading{{forloop.counter}}">
+                                  <button class="accordion-button collapsed px-0 text-primary-clr bg-white" style="font-weight: 500;" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{forloop.counter}}" aria-expanded="false" aria-controls="flush-collapse{{forloop.counter}}">
+                                    {{detail.heading}}
+                                  </button>
+                                </h2>
+                                <div id="flush-collapse{{forloop.counter}}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{forloop.counter}}" data-bs-parent="#accordionFlushExample">
+                                  <div class="accordion-body px-0 pt-0">
+                                      <ul class="list-group list-group-flush ">
+                                          {% for sub_topic in detail.coursesubheading_set.all %}
+                                          <li class="list-group-item border-bottom-0 d-flex justify-content-between text-primary-clr">
+                                              <div>
+                                                  <span class="text-tertiary-clr bg-light rounded-circle me-2 p-2" style="background-color: #000000;">
+                                                      <i class="bi bi-caret-right-fill"></i>
+                                                  </span>
+                                                  {% if sub_topic.display == True %}
+                                                    <a class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-url="{{sub_topic.url}}">
+                                                        {{sub_topic.sub_heading}}
+                                                    </a>
+                                                  {% else %}
+                                                        {{sub_topic.sub_heading}}
+                                                  {% endif %}
+                                              </div>
+                                              <span>{{sub_topic.duration}}</span></li>
+                                          {% endfor %}
+                                      </ul>
+                                  </div>
+                                </div>
                               </div>
+                              {% endfor %}
                             </div>
                           </div>
-                          <div class="accordion-item">
-                            <h2 class="accordion-header" id="flush-headingTwo">
-                              <button class="accordion-button collapsed bg-white px-0 text-primary-clr" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                                Accordion Item #2
-                              </button>
-                            </h2>
-                            <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                              <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being filled with some actual content.</div>
-                            </div>
+                          <div id="description" class="tab-pane fade" role="tabpanel">
+                              <div class="container">
+                              {{ course_detail.description|safe }}
+                              </div>
                           </div>
-                          <div class="accordion-item">
-                            <h2 class="accordion-header" id="flush-headingThree">
-                              <button class="accordion-button collapsed px-0 bg-white text-primary-clr" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                                Accordion Item #3
-                              </button>
-                            </h2>
-                            <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                              <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
-                            </div>
-                          </div>
-                          <div class="accordion-item">
-                            <h2 class="accordion-header" id="flush-headingThree">
-                              <button class="accordion-button collapsed px-0 bg-white text-primary-clr" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                                Accordion Item #3
-                              </button>
-                            </h2>
-                            <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                              <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
-                            </div>
-                          </div>
-                          <div class="accordion-item">
-                            <h2 class="accordion-header" id="flush-headingThree">
-                              <button class="accordion-button collapsed px-0 bg-white text-primary-clr" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                                Accordion Item #3
-                              </button>
-                            </h2>
-                            <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                              <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
-                            </div>
-                          </div>
-                          <div class="accordion-item">
-                            <h2 class="accordion-header" id="flush-headingThree">
-                              <button class="accordion-button collapsed px-0 bg-white text-primary-clr" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                                Accordion Item #3
-                              </button>
-                            </h2>
-                            <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                              <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
-                            </div>
-                          </div>
-                        </div>
+                          {% if not course_detail.description and not course_detail.courseheading_set.all %}
+                             <h1>Coming Soon</h1>
+                          {% endif %}
+                      </div>
                   </div>
              </div>
          </div>
          <div class="col-lg-4">
              <div class="card border-0 rounded-3" style="width: 22rem; margin-top: -12rem;">
-              <img src="{% static 'img/course-javascript.jpg' %}" class="card-img-top p-1 rounded-3" alt="...">
+              <img src={{course_detail.image.url}} class="card-img-top p-1 rounded-3" alt="...">
               <div class="card-body">
-                <h4 class="card-title text-primary-clr fw-bolder">₹500</h4>
-                <a href="#" class="btn  btn-dark d-grid mt-4" style="background-color: #754ffe; border-color: #754ffe;">Buy</a>
+                <h4 class="card-title text-primary-clr fw-bolder">₹{{course_detail.price}}</h4>
+                    {% if course_detail.description and course_detail.courseheading_set.all %}
+                    <a href="#" class="btn  btn-dark d-grid mt-4" style="background-color: #754ffe; border-color: #754ffe;">Buy</a>
+                    {% endif %}
               </div>
              </div>
         </div>
      </div>
   </div>
 </div>
-     {% endblock content %}
+<!--Modal Form-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body" id="modalbody">
+      </div>
+    </div>
+  </div>
+</div>
+<!--End of Modal Form-->
+<!--Javascript-->
+{% block javascript %}
+<script src="{% static 'js/main.js' %}"></script>
+{% endblock javascript %}
+{% endblock content %}
