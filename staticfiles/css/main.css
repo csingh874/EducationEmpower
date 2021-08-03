@@ -1,22 +1,19 @@
-body {
+/*body {
     background-color: rgb(245, 244, 248);
-}
+}*/
 
 .card{
     border-bottom-left-radius: 8px !important;
     border-bottom-right-radius: 8px !important;
-    box-shadow: rgba(3, 0, 71, 0.09) 0px 1px 3px 0px !important;
-    border-bottom-color: rgb(92, 87, 118) !important;
-    border-left-color: rgb(92, 87, 118) !important;
-    border-right-color: rgb(92, 87, 118) !important;
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px !important;
     white-space: normal;
     overflow: hidden !important;
 }
 
 .card .card-img-top {
-    overflow: hidden !important;
     border-top-left-radius: 8px !important;
     border-top-right-radius: 8px !important;
+    overflow: hidden !important;
 }
 
 .card .card-body{
@@ -74,3 +71,14 @@ button:hover{
 .text-tertiary-clr{
     color: rgb(94, 63, 203) !important;
 }
+
+.bg-purple{
+    background-color:#754ffe;
+}
+
+.btn-browse{
+        background-color: #D8FE4F;
+        font-weight:600;
+        color: rgb(24, 17, 60);
+}
+
