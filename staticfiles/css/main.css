@@ -1,7 +1,6 @@
-/*body {
-    background-color: rgb(245, 244, 248);
-}*/
-
+body{
+        font-family: 'Noto Serif', serif;
+}
 .card{
     border-bottom-left-radius: 8px !important;
     border-bottom-right-radius: 8px !important;
@@ -80,5 +79,26 @@ button:hover{
         background-color: #D8FE4F;
         font-weight:600;
         color: rgb(24, 17, 60);
+}
+
+.btm-margin{
+    margin-bottom: 100px !important;
+}
+@media (max-width: 992px){
+    .btm-margin{
+       margin-bottom: 220px !important;
+    }
+
+    .rate-card{
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 770px){
+    .description-cont{
+        display: block;
+        text-align: inherit;
+    }
 }
 

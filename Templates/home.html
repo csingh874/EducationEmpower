@@ -3,7 +3,7 @@
 {% load static %}
 <!--Landing Page-->
 <div class="px-4 py-5 text-center bg-purple">
-    <h1 class="display-5 fw-bold text-white">Education Empower</h1>
+    <h1 class="display-5 fw-bold text-white">Learning Spot</h1>
     <div class="col-lg-6 mx-auto">
       <p class="lead mb-4 text-white-50">Online Learning is becoming one of the most cost-effective ways to educate the world's rapidly expanding workforce.</p>
       <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
@@ -15,7 +15,7 @@
 <!--Products Listings-->
 <section class="my-3" id="courses">
     <div class="container py-5">
-        <h1 class="text-primary-clr text-center mb-5" >Courses</h1>
+        <h1 class="text-primary-clr text-center mb-5 fw-bolder ">Courses</h1>
         <div class="row d-flex justify-content-center">
             {% for detail in course_data %}
             <div class="col-lg-3 col-md-6 mb-5 d-flex justify-content-center">
@@ -24,12 +24,12 @@
                     <img src={{detail.image.url}} class="card-img-top" alt="...">
                 </a>
                 <div class="card-body shadow-lg">
-                    <h6 class="card-title">
+                    <h6 class="card-title ">
                         <a href="{% url 'course_details' detail.idx %}" class="fw-bolder text-decoration-none text-primary-clr">{{ detail.title }}</a></h6>
                     <h6 class="card-text text-secondary-clr">{{ detail.short_description }}</h6>
                 </div>
                 <div class="card-footer bg-white">
-                    <h6 class="card-text text-secondary-clr text-center">Jasbir Arora</h6>
+                    <h6 class="card-text text-secondary-clr text-center ">Charanjeet Singh</h6>
                 </div>
               </div>
             </div>

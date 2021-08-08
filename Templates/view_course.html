@@ -18,7 +18,7 @@
 <div>
  <div class="container">
      <div class="row">
-         <div class="col-lg-8 mn">
+         <div class="col-lg-8 btm-margin mn">
              <div class="card rounded-3 border-0">
                   <div class="card-header border-bottom-0 p-0 bg-white">
                     <ul class="nav card-header-tabs" style="border-bottom: 1px solid #e8e7ed;" role="tablist">
@@ -72,7 +72,7 @@
                             </div>
                           </div>
                           <div id="description" class="tab-pane fade" role="tabpanel">
-                              <div class="container">
+                              <div class="container description-cont">
                               {{ course_detail.description|safe }}
                               </div>
                           </div>
@@ -83,13 +83,13 @@
                   </div>
              </div>
          </div>
-         <div class="col-lg-4">
+         <div class="col-lg-4 rate-card">
              <div class="card border-0 rounded-3" style="width: 22rem; margin-top: -12rem;">
               <img src={{course_detail.image.url}} class="card-img-top p-1 rounded-3" alt="...">
               <div class="card-body">
-                <h4 class="card-title text-primary-clr fw-bolder">₹{{course_detail.price}}</h4>
+<!--                <h4 class="card-title text-primary-clr fw-bolder">₹{{course_detail.price}}</h4>-->
                     {% if course_detail.description and course_detail.courseheading_set.all %}
-                    <a href="#" class="btn  btn-dark d-grid mt-4" style="background-color: #754ffe; border-color: #754ffe;">Buy</a>
+                    <a href="#" class="btn  btn-dark d-grid mt-4" style="background-color: #754ffe; border-color: #754ffe;">Buy ₹{{course_detail.price}}</a>
                     {% endif %}
               </div>
              </div>
