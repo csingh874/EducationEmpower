@@ -63,7 +63,7 @@ button:focus {
     box-shadow: none !important;
 }
 
-button:hover{
+h2 > button:hover{
    color: #754ffe !important;
 }
 
@@ -84,6 +84,16 @@ button:hover{
 .btm-margin{
     margin-bottom: 100px !important;
 }
+
+.form-control:focus{
+    box-shadow: 0 0 2px 2px rgba(117,79,254, 0.25) !important;
+    border-color: rgba(117,79,254, 0.25) !important;
+    color: rgb(92, 87, 118) !important;
+}
+.error{
+    border: 2px solid red !important;
+}
+
 @media (max-width: 992px){
     .btm-margin{
        margin-bottom: 220px !important;
@@ -101,4 +111,3 @@ button:hover{
         text-align: inherit;
     }
 }
-

@@ -13,7 +13,7 @@
 </head>
 <body>
 <!--Navigation Bar-->
-<nav class="navbar navbar-expand-lg navbar-light bg-white">
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-lg">
   <div class="container-fluid  fw-bolder">
     <a class="navbar-brand text-primary-clr" href="{% url 'home' %}">Learning Spot</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,8 +32,16 @@
           <a class="btn btn-outline-dark" data-bs-toggle="modal" href="#modalSignin" role="button">Login</a>
         </li>
         {% else %}
-          <li class="nav-item">
-          <a class="btn btn-outline-dark" href="{% url 'user_logout' %}">Logout</a>
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link text-primary-clr text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+            {{user.username|title}}
+          </a>
+          <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" style="left: -90px;">
+            <li><a class="dropdown-item" href="#">My Profile</a></li>
+            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalForgotPassword">My Courses</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{% url 'user_logout' %}">Sign out</a></li>
+          </ul>
         </li>
         {% endif %}
       </ul>
@@ -132,7 +140,9 @@
   <!-- Copyright -->
 </footer>
 <!--End of Footer-->
+
 <!--Modal Popups-->
+
 <!--Login Modal-->
 <div class="modal modal-fade" tabindex="-1" role="dialog" id="modalSignin">
   <div class="modal-dialog">
@@ -143,13 +153,16 @@
       </div>
       <div class="modal-body p-5 pt-0">
         <form id="login_form">
+          {% csrf_token %}
           <div class="form-floating mb-3">
             <input type="text" class="form-control rounded-4" id="login_email" placeholder="username" required>
             <label for="login_email">Username</label>
+            <small class="text-danger"></small>
           </div>
           <div class="form-floating mb-3">
             <input type="password" class="form-control rounded-4" id="login_password" placeholder="******" required>
             <label for="login_password">Password</label>
+            <span><a class="text-decoration-none text-center" id="btn_forgot_password">Forgot Password?</a></span>
           </div>
           <button class="w-100 mb-2 btn btn-lg btn-dark border-0 rounded-4 bg-purple" type="submit" id="btn_login">Submit</button>
         </form>
@@ -163,6 +176,8 @@
     </div>
   </div>
 </div>
+<!--End of Login Modal PopUp-->
+
 <!--Sign up Modal-->
 <div class="modal modal-fade" tabindex="-1" role="dialog" id="modalSignup">
   <div class="modal-dialog">
@@ -173,23 +188,24 @@
       </div>
       <div class="modal-body p-5 pt-0">
         <form id="signup_form">
+          {% csrf_token %}
           <div class="form-floating mb-3">
             <input type="text" class="form-control rounded-4" id="username" placeholder="name@example.com" required>
             <label for="username">Username</label>
             <small class="text-danger"></small>
           </div>
-          <div class="form-floating mb-3">
+          <div class="form-floating mb-3 purple-text">
             <input type="email" class="form-control rounded-4" id="email" placeholder="name@example.com" required>
             <label for="email">Email address</label>
             <small class="text-danger"></small>
           </div>
           <div class="form-floating mb-3">
-            <input type="password" class="form-control rounded-4" id="password1" placeholder="Password" required>
+            <input type="password" class="form-control rounded-4" id="password1" placeholder="Password" minlength="7" required>
             <label for="password1">Password</label>
             <small class="text-danger"></small>
           </div>
           <div class="form-floating mb-3">
-            <input type="password" class="form-control rounded-4" id="password2" placeholder="Confirm Password" required>
+            <input type="password" class="form-control rounded-4" id="password2" placeholder="Confirm Password" minlength="7" required>
             <label for="password2">Confirm Password</label>
             <small class="text-danger"></small>
           </div>
@@ -202,7 +218,49 @@
     </div>
   </div>
 </div>
+<!--End of Signup form-->
+
+<!--Forgot Change password-->
+<div class="modal modal-fade" tabindex="-1" role="dialog" id="modalForgotPassword">
+  <div class="modal-dialog">
+    <div class="modal-content rounded-5 shadow">
+      <div class="modal-header p-5 pb-4 border-bottom-0">
+        <h2 class="fw-bold mb-0">Change Password</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-5 pt-0">
+        <form id="VerifyOtpForm">
+          {% csrf_token %}
+          <div class="form-floating mb-3">
+            <input type="number" class="form-control rounded-4" id="otp_num" placeholder="OTP" maxlength="6" minlength="6" required>
+            <label for="otp_num">OTP</label>
+            <small class="text-danger"></small>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control rounded-4" id="new_password1" placeholder="New Password" minlength="8" required>
+            <label for="new_password1">Password</label>
+            <small class="text-danger"></small>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control rounded-4" id="new_password2" placeholder="Confirm Password" minlength="8" required>
+            <label for="new_password2">Confirm Password</label>
+            <small class="text-danger"></small>
+          </div>
+          <input type="text" id="otp_key" hidden>
+          <button class="w-100 mb-2 btn btn-lg btn-dark border-0 rounded-4 bg-purple" type="submit">Verify</button>
+        </form>
+        <div class="text-center">
+          <a class="btn btn-light shadow-lg" data-bs-toggle="modal" data-bs-target="#modalSignin" role="button" data-bs-dismiss="modal">Back to Log in</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End of Forgot change password -->
+
 <!--End of Modal Pop-up form-->
+
+
 <!--Javascript-->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>

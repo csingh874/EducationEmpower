@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row gx-5 mt-5">
+        <div class="col-lg-3 bg-white shadow-lg">
+            <div class="container">
+                <ul class="nav flex-column">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Active</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                  </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-7 offset-1 bg-white shadow-lg">
+            <div class="container p-5">
+                <form id="VerifyOtpForm">
+                  {% csrf_token %}
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control rounded-4" id="f_name" placeholder="First Name" minlength="2" required>
+                    <label for="f_name">First Name</label>
+                    <small class="text-danger"></small>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control rounded-4" id="l_name" placeholder="Last Name" minlength="2" required>
+                    <label for="l_name">Last Name</label>
+                    <small class="text-danger"></small>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input type="email" class="form-control rounded-4" id="email" placeholder="Email" required>
+                    <label for="email">Email</label>
+                    <small class="text-danger"></small>
+                  </div>
+                  <input type="text" id="otp_key" hidden>
+                  <button class="w-100 mb-2 btn btn-lg btn-dark border-0 rounded-4 bg-purple" type="submit">Verify</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
