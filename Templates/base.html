@@ -37,7 +37,7 @@
             {{user.username|title}}
           </a>
           <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" style="left: -90px;">
-            <li><a class="dropdown-item" href="#">My Profile</a></li>
+            <li><a class="dropdown-item" href="{% url 'my_profile' %}">My Profile</a></li>
             <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalForgotPassword">My Courses</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{% url 'user_logout' %}">Sign out</a></li>

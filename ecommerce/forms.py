@@ -11,8 +11,7 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ["username", "email", "password1", "password2"]
 
 
-class PasswordResetCustom(forms.Form):
-
-    new_password1 = forms.CharField(strip=False)
-    new_password2 = forms.CharField(strip=False)
-
+class UserForm(forms.ModelForm):
+    class Meta:
+        fields = ('first_name', 'last_name', 'email')
+        model = User

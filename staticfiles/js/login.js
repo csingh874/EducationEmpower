@@ -147,3 +147,17 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+//Profile Edit
+$("#btn_edit").click(function(){
+    let form = $('#ProfileForm');
+    let input_fields = form.find('.form-control');
+    console.log(input_fields.length);
+    for(let field=0; field<input_fields.length;field++){
+        if(input_fields[field].hasAttribute('disabled')){
+            input_fields[field].removeAttribute('disabled');
+        }
+    }
+    $(this).hide();
+    $('#btn_profile_submit').removeAttr('hidden');
+});

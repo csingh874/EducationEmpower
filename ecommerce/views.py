@@ -4,17 +4,19 @@ from django.contrib.auth import login, authenticate, logout
 from .models import *
 from .forms import *
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth.forms import SetPasswordForm
+from django.contrib.auth.forms import SetPasswordForm, PasswordChangeForm
 from asgiref.sync import sync_to_async
 from django.core.mail import send_mail
 import pyotp
 import base64
 import asyncio
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.urls import reverse
 
 
 # Create your views here.
-
 async def send_otp_mail(sub, msg):
     a_send_mail = sync_to_async(send_mail)
     await a_send_mail(sub, msg, settings.EMAIL_HOST_USER, ['csingh874@gmail.com'], fail_silently=False)
@@ -116,5 +118,33 @@ def verify_otp(request):
     return redirect("home")
 
 
+@login_required(login_url="home")
 def my_profile(request):
+    if request.method == "POST":
+        data = {
+            "first_name": request.POST.get("f_name"),
+            "last_name": request.POST.get("l_name"),
+            "email": request.POST.get("txt_email"),
+        }
+        form = UserForm(data, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully")
+            return redirect(reverse("my_profile", args=['#personal_information']))
     return render(request, "profile.html")
+
+
+@login_required(login_url="home")
+def change_password(request):
+    if request.method == "POST":
+        data = {
+            "old_password": request.POST.get('old_password'),
+            "new_password1": request.POST.get('new_password'),
+            "new_password2": request.POST.get('confirm_password')
+        }
+        form = PasswordChangeForm(user=request.user, data=data)
+        if form.is_valid():
+            form.save()
+            return redirect("my_profile")
+        messages.error(request, form.error_messages)
+    return redirect("my_profile")
