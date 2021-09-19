@@ -23,4 +23,5 @@ class CourseDescriptionAdmin(nested_admin.NestedModelAdmin):
 admin.site.register(CourseDescription, CourseDescriptionAdmin)
 admin.site.register(CourseHeading)
 admin.site.register(CourseSubHeading)
+admin.site.register(OrderDetails)
 admin.site.site_header = "Learning Spot"

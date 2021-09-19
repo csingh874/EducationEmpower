@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth import login, authenticate, logout
@@ -14,9 +15,17 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.urls import reverse
+import razorpay
+import hmac
+import hashlib
+from json import loads
 
 
 # Create your views here.
+def razorpay_auth():
+    return razorpay.Client(auth=("rzp_test_Jpnr55OprKlG0k", "1kzUy3rpnA0D7DFyUENBYS6j"))
+
+
 async def send_otp_mail(sub, msg):
     a_send_mail = sync_to_async(send_mail)
     await a_send_mail(sub, msg, settings.EMAIL_HOST_USER, ['csingh874@gmail.com'], fail_silently=False)
@@ -37,7 +46,7 @@ def course_page(request):
 # View Single Course Detail
 def view_course(request, course_idx):
     course_detail = CourseDescription.objects.get(idx=course_idx)
-    return render(request, "view_course.html", {"course_detail": course_detail})
+    return render(request, "view_course.html", {"course_detail": course_detail, "course_idx": course_idx})
 
 
 # login
@@ -130,21 +139,55 @@ def my_profile(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Profile updated successfully")
-            return redirect(reverse("my_profile", args=['#personal_information']))
+            return redirect("my_profile")
     return render(request, "profile.html")
 
 
 @login_required(login_url="home")
 def change_password(request):
+    form = PasswordChangeForm(user=request.user)
     if request.method == "POST":
-        data = {
-            "old_password": request.POST.get('old_password'),
-            "new_password1": request.POST.get('new_password'),
-            "new_password2": request.POST.get('confirm_password')
-        }
-        form = PasswordChangeForm(user=request.user, data=data)
+        form = PasswordChangeForm(user=request.user, data=request.POST)
         if form.is_valid():
             form.save()
             return redirect("my_profile")
-        messages.error(request, form.error_messages)
-    return redirect("my_profile")
+    return render(request, "password_change.html", {"form": form})
+
+
+@login_required(login_url="home")
+def create_razorpay_order(request):
+    if request.method == "POST":
+        client = razorpay_auth()
+        course_idx = request.POST.get('course_idx')
+        course = CourseDescription.objects.get(idx=course_idx)
+        order_amount = (course.price * 100)
+        order_currency = 'INR'
+        try:
+            obj_order = OrderDetails.objects.get(course_id=course, user_id=request.user, status='created',
+                                                 resp__amount=order_amount).resp
+        except ObjectDoesNotExist:
+            obj_order = client.order.create({'amount': order_amount, 'currency': order_currency})
+            new_order = OrderDetails(course_id=course, user_id=request.user, resp=obj_order, status='created')
+            new_order.save()
+        return JsonResponse({"resp": {"success": obj_order}})
+    return redirect("home")
+
+
+@login_required(login_url='home')
+def confirm_payment(request):
+    if request.method == 'POST':
+        checkout_resp = loads(request.POST.get('data'))
+        order_id = request.POST.get('order_id')
+        signature = hmac.new(b'1kzUy3rpnA0D7DFyUENBYS6j', f'{order_id}|{checkout_resp.get("razorpay_payment_id")}'.
+                             encode(), hashlib.sha256).hexdigest()
+        if signature == checkout_resp.get("razorpay_signature"):
+            ord_detail = OrderDetails.objects.get(user_id=request.user, resp__id=order_id)
+            ord_detail.status, ord_detail.checkout_resp = 'success', checkout_resp
+            ord_detail.save()
+            return JsonResponse({"success": "success"})
+    return redirect('home')
+
+
+@login_required()
+def new_home(request):
+    return render(request, "new_home.html")

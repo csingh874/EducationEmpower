@@ -152,7 +152,6 @@ function getCookie(name) {
 $("#btn_edit").click(function(){
     let form = $('#ProfileForm');
     let input_fields = form.find('.form-control');
-    console.log(input_fields.length);
     for(let field=0; field<input_fields.length;field++){
         if(input_fields[field].hasAttribute('disabled')){
             input_fields[field].removeAttribute('disabled');
@@ -160,4 +159,19 @@ $("#btn_edit").click(function(){
     }
     $(this).hide();
     $('#btn_profile_submit').removeAttr('hidden');
+    $('#btn_profile_cancel').removeAttr('hidden');
 });
+
+// On click of Profile edit cancel button
+$('#btn_profile_cancel').click(function(e){
+    e.preventDefault();
+    let form = $('#ProfileForm');
+    let input_fields = form.find('.form-control');
+    for(let field=0; field<input_fields.length;field++){
+       input_fields[field].disabled=true;
+    }
+     $('#btn_profile_submit').attr("hidden", "");
+     $('#btn_profile_cancel').attr("hidden", "");
+     $('#btn_edit').show();
+});
+

@@ -1,6 +1,76 @@
 body{
-        font-family: 'Noto Serif', serif;
+   font-family: 'Noto Serif', serif;
 }
+
+.navbar{
+      margin-left: 80px;
+      margin-right: 80px;
+}
+
+.navbar .navbar-brand{
+    color: #484A87;
+    font-weight: bold;
+}
+
+.navbar .navbar-brand:hover{
+   color: #484A87;
+   font-weight: bold;
+}
+
+.navbar .nav-item .nav-link{
+   color: #1E1E5C;
+}
+.active {
+   color: #1E1E5C !important;
+   font-weight: bold;
+}
+
+.navbar .nav-item .nav-link:hover{
+   color: #1E1E5C !important;
+}
+
+.display-1{
+     color: #484A87;
+}
+
+h1{
+  color: #484A87;
+}
+
+p{
+   color: #676996;
+ }
+
+.btn{
+   color: #fff !important;
+   background-color: #1E1E5C !important;
+}
+
+  @media screen and (max-width: 768px){
+     .navbar{
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+
+    .display-1{
+        margin-top: 50px;
+        text-align: center;
+    }
+
+    .learning-left > p{
+      text-align: center;
+    }
+
+    .landing-button{
+      display: flex;
+      justify-content: center;
+    }
+
+    .landing-right .img-fluid{
+      display: none;
+    }
+  }
+
 .card{
     border-bottom-left-radius: 8px !important;
     border-bottom-right-radius: 8px !important;

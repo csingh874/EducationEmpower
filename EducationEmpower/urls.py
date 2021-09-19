@@ -24,4 +24,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^_nested_admin/', include('nested_admin.urls')),
     path("", include("ecommerce.urls")),
+    path('accounts/', include('allauth.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + staticfiles_urlpatterns()

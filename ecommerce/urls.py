@@ -10,6 +10,9 @@ urlpatterns = [
     path("signup", views.user_creation, name="sign_up"),
     path("forgot-password", views.password_forgot_reset, name="forgot_password"),
     path("verify-otp", views.verify_otp, name="verify_otp"),
-    path("my-profile", views.my_profile, name="my_profile"),
-    path('change-password', views.change_password, name="change_password"),
+    path("my-profile/personal-information", views.my_profile, name="my_profile"),
+    path('my-profile/change-password', views.change_password, name="change_password"),
+    path('create-razorpay-order', views.create_razorpay_order, name="create_razorpay_order"),
+    path('confirm-payment', views.confirm_payment, name="confirm_payment"),
+    path('new-home', views.new_home),
 ]

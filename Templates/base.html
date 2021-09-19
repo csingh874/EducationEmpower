@@ -2,7 +2,7 @@
 {% load static %}
 <html lang="en">
 <head>
-     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Learning Spot</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
@@ -13,77 +13,83 @@
 </head>
 <body>
 <!--Navigation Bar-->
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-lg">
-  <div class="container-fluid  fw-bolder">
-    <a class="navbar-brand text-primary-clr" href="{% url 'home' %}">Learning Spot</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+<section style="background: linear-gradient(180deg, rgba(208, 231, 238, 0.7) 0%, rgba(237, 251, 255, 0) 100%);
+mix-blend-mode: normal;">
+<nav class="navbar navbar-expand-md navbar-dark">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'home' %}">Learning Spot</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 mb-md-0">
         <li class="nav-item">
-          <a class="nav-link active text-primary-clr" aria-current="page" href="{% url 'home' %}">Home</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-primary-clr" href="{% url 'courses' %}">Courses</a>
+          <a class="nav-link" href="{% url 'courses' %}">Courses</a>
         </li>
-        {% if not user.is_authenticated %}
-        <li class="nav-item">
-          <a class="btn btn-outline-dark" data-bs-toggle="modal" href="#modalSignin" role="button">Login</a>
-        </li>
-        {% else %}
+        {% if user.is_authenticated %}
         <li class="nav-item dropdown">
-          <a href="#" class="nav-link text-primary-clr text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-            {{user.username|title}}
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown
           </a>
-          <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" style="left: -90px;">
-            <li><a class="dropdown-item" href="{% url 'my_profile' %}">My Profile</a></li>
-            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalForgotPassword">My Courses</a></li>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="{% url 'user_logout' %}">Sign out</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
           </ul>
         </li>
+        {% else %}
+            <button class="btn">Login</button>
         {% endif %}
       </ul>
+
     </div>
   </div>
 </nav>
+<!-- End Nav Bar -->
+<!-- Landing Page -->
+  {% block top %}
+
+  {% endblock top %}
+</section>
 <!--End of Navigation Bar-->
 {% block content %}
 
 {% endblock content %}
 <!-- Footer -->
-<footer class="text-center text-white bg-purple mt-5">
+<footer class="text-center text-white mt-5" style="background-color: #e0eff4;">
   <!-- Grid container -->
   <div class="container p-4">
     <!-- Section: Social media -->
     <section class="mb-4">
       <!-- Facebook -->
-      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+      <a class="btn btn-outline-dark btn-floating m-1" href="#!" role="button"
         ><i class="bi bi-facebook"></i>
       </a>
 
       <!-- Twitter -->
-      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+      <a class="btn btn-outline-dark btn-floating m-1" href="#!" role="button"
         ><i class="bi bi-twitter"></i></a>
 
       <!-- Google -->
-      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+      <a class="btn btn-outline-dark btn-floating m-1" href="#!" role="button"
         ><i class="bi bi-google"></i></a>
 
       <!-- Instagram -->
-      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+      <a class="btn btn-outline-dark btn-floating m-1" href="#!" role="button"
         ><i class="bi bi-instagram"></i></a>
 
       <!-- Linkedin -->
-      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+      <a class="btn btn-outline-dark btn-floating m-1" href="#!" role="button"
         ><i class="bi bi-linkedin"></i></i
       ></a>
 
       <!-- Github -->
-      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
-        ><i class="bi bi-github"></i></i
-      ></a>
+      <a class="btn btn-outline-dark btn-floating m-1" href="#!" role="button"
+        ><i class="bi bi-github"></i></i></a>
     </section>
     <!-- Section: Social media -->
 
@@ -144,6 +150,7 @@
 <!--Modal Popups-->
 
 <!--Login Modal-->
+{% if not user.is_authenticated %}
 <div class="modal modal-fade" tabindex="-1" role="dialog" id="modalSignin">
   <div class="modal-dialog">
     <div class="modal-content rounded-5 shadow">
@@ -176,6 +183,7 @@
     </div>
   </div>
 </div>
+
 <!--End of Login Modal PopUp-->
 
 <!--Sign up Modal-->
@@ -257,6 +265,7 @@
   </div>
 </div>
 <!-- End of Forgot change password -->
+{% endif %}
 
 <!--End of Modal Pop-up form-->
 

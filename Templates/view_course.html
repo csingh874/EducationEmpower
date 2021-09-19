@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
-{% block content %}
 {% load static %}
- <div class="pt-5 pb-5" style="background-color:#754ffe;">
+{% block top %}
+<div class="pt-5 pb-5">
         <div class="container mb-5">
             <div class="row align-items-center">
                 <div class="col-xl-7 col-lg-7 col-md-12">
                     <div>
-                        <h1 class="text-white display-6 fw-semi-bold">{{ course_detail.title }}</h1>
-                        <p class="text-white mb-6 lead">
+                        <h1 class="display-6 fw-semi-bold">{{ course_detail.title }}</h1>
+                        <p class="mb-6 lead">
                             {{ course_detail.short_description }}
                         </p>
                     </div>
@@ -15,6 +15,9 @@
             </div>
        </div>
  </div>
+{% endblock top %}
+{% block content %}
+
 <div>
  <div class="container">
      <div class="row">
@@ -87,9 +90,12 @@
              <div class="card border-0 rounded-3" style="width: 22rem; margin-top: -12rem;">
               <img src={{course_detail.image.url}} class="card-img-top p-1 rounded-3" alt="...">
               <div class="card-body">
-<!--                <h4 class="card-title text-primary-clr fw-bolder">₹{{course_detail.price}}</h4>-->
                     {% if course_detail.description and course_detail.courseheading_set.all %}
-                    <a href="#" class="btn  btn-dark d-grid mt-4" style="background-color: #754ffe; border-color: #754ffe;">Buy ₹{{course_detail.price}}</a>
+                        {% if not user.is_authenticated %}
+                            <button class="btn btn-dark d-grid mt-4" style="background-color: #754ffe; border-color: #754ffe;" data-bs-toggle="modal" data-bs-target="#modalSignin">Buy ₹{{course_detail.price}}</button>
+                        {% else %}
+                          <a class="btn btn-dark d-grid mt-4" style="background-color: #754ffe; border-color: #754ffe;" id="btn_purchase">Buy ₹{{ course_detail.price }}</a>
+                        {% endif %}
                     {% endif %}
               </div>
              </div>
@@ -108,7 +114,55 @@
 </div>
 <!--End of Modal Form-->
 <!--Javascript-->
-{% block javascript %}
+
+{% if user.is_authenticated %}
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="{% static 'js/main.js' %}"></script>
-{% endblock javascript %}
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script type="text/javascript">
+        $(function(){
+           $('#btn_purchase').on('click', function(e){
+                e.preventDefault();
+                $(this).disabled = true;
+                ajax_call("POST", "/create-razorpay-order", {"course_idx": "{{course_idx}}"}, razorpay_order_resp);
+            });
+        });
+
+        function razorpay_order_resp(resp){
+                if (resp.resp.success){
+                let order_id = resp.resp.success.id;
+                let amount = resp.resp.success.amount;
+                var options = {
+                        "key": "rzp_test_Jpnr55OprKlG0k",
+                        "amount": amount,
+                        "currency": "INR",
+                        "name": "Learning Spot",
+                        "description": "Test Transaction",
+                        "order_id": order_id,
+                        "handler": function (response){
+                            let data = {
+                             "order_id": order_id,
+                             "razorpay_payment_id": response.razorpay_payment_id,
+                             "razorpay_order_id": response.razorpay_order_id,
+                             "razorpay_signature": response.razorpay_signature,
+                            }
+                            ajax_call('POST', '/confirm-payment', {'data': JSON.stringify(response), 'order_id': order_id}, console.log('Success'));
+                        },
+                        "prefill": {
+                            "name": "{{user.username}}",
+                            "email": "{{user.email}}",
+                        },
+                        "theme": {
+                            "color": "#3399cc"
+                        }
+                    };
+                var rzp1 = new Razorpay(options);
+                rzp1.open();
+            }
+            else{
+                console.log('failed');
+            }
+        }
+    </script>
+{% endif %}
 {% endblock content %}

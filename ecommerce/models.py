@@ -2,6 +2,7 @@ from django.db import models
 import uuid
 from PIL import Image
 from ckeditor.fields import RichTextField
+from django.conf import settings
 # Create your models here.
 
 
@@ -41,4 +42,14 @@ class CourseSubHeading(models.Model):
 
     def __str__(self):
         return self.sub_heading
+
+
+class OrderDetails(models.Model):
+    course_id = models.ForeignKey(CourseDescription, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    resp = models.JSONField(null=True, blank=True)
+    checkout_resp = models.JSONField(null=True, blank=True)
+    purchase_date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=7, choices=(('created', 'created'), ('failed', 'Failed'),
+                                                     ('success', 'Success')))
 
