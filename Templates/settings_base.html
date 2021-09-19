@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+    <div class="row mt-5">
+        <div class="col-lg-3">
+            <div class="container">
+                <ul class="nav flex-column bg-white shadow-lg p-2">
+                  <li class="nav-item">
+                       <h4 class="text-primary-clr text-center pt-3">Hello {{user.username|title}}</h4>
+                  </li>
+                   <hr>
+                  <li class="nav-item">
+                    <a class="nav-link active text-secondary-clr" href="{% url 'my_profile' %}">Personal Information</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-secondary-clr" href="{% url 'change_password' %}">Change Password</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-secondary-clr" data-bs-toggle="tab">Account Deactivate</a>
+                  </li>
+                    <hr>
+                    <li class="nav-item">
+                       <h6 class="text-secondary-clr text-center">Last login at <br>{{user.last_login}}</h6>
+                  </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-9 tab-content">
+            <div class="container">
+                 {% block form_content %}
+                 {% endblock form_content %}
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock content %}
